@@ -1,0 +1,33 @@
+{
+  "name": "nolix",
+  "version": "1.0.0",
+  "description": "Pair Project Create Web Movies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "resetDb": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "reset": "npx sequelize db:seed:undo:all && npx sequelize db:seed:all",
+    "dev": "npx nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RF4TH4N11/Nolix.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RF4TH4N11/Nolix/issues"
+  },
+  "homepage": "https://github.com/RF4TH4N11/Nolix#readme",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "sequelize-cli": "^6.6.3"
+  }
+}

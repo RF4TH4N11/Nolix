@@ -1,0 +1,52 @@
+1. npm init terlebih dahulu
+    - npm init -y
+
+2. Jangan lupa ignore
+    - touch .gitnore -> node_modules
+    Jangan lupa ignore node_modules
+
+3. Install keperluan
+    - npm i pg express ejs sequelize
+    - npm i -D nodemon sequelize-cli
+
+4. Untuk memulai kita bisa gunakan command dari Sequelize-cli
+    Commandnya? -> https://www.npmjs.com/package/sequelize-cli
+
+    START - Initialize Project Sequelize
+        npx sequelize-cli init
+    Akan di buatin otomatis, folder kebutuhan config migrations models seeders
+
+    Buka dan isi config dengan benar -> Buat dbnya (`npx sequelize db:create`)
+
+5. Create Model (dan migrasi) pertama
+    MODEL jadi Singular + PascalCase
+    <columnName>:<dataType>
+
+    string,integer,boolean,date,float
+
+    npx sequelize-cli model:generate --name User --attributes name:string,email:string
+    npx sequelize-cli model:generate --name User --attributes userName:string,email:string,password:string,role:string
+    GENERATE DARI YANG TIDAK DEPENDEN (NO FK)
+
+    "resetDb": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "reset": "npx sequelize db:seed:undo:all && npx sequelize db:seed:all",
+    "dev": "npx nodemon app.js"
+
+
+    OPSIONAL STEP - JIKA ADA YANG KELUPAAN MODEL JANGAN LUPA DI SESUAIKAN
+
+    Misalnya ada kolom yang salah nama / tertinggal, kita harus ubah tablenya
+    Caranya adalah bukan dengan ngedrop dan buat lagi, gimana kalau ada datanya?
+
+    Kita akan gunakan perintah migrasi baru, dengan membuat
+
+    npx sequelize-cli migration:generate --name add-column-email-to-user
+
+    === Maka di sini harus menambahkan email ke dalam model user ===
+    Di user init (initialize)
+    User.init({
+        name: DataTypes.STRING,
+        email: DataTypes.STRING // <-- Tambahin
+    }
+
+6. 
