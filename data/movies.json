@@ -1,0 +1,37 @@
+[
+    {
+        "title": "Edge of Tomorrow",
+        "imageUrl": "https://example.com/edge.jpg",
+        "rating": 8,
+        "UserId": 2,
+        "CategoryId": 1
+    },
+    {
+        "title": "La La Land",
+        "imageUrl": "https://example.com/lalaland.jpg",
+        "rating": 7,
+        "UserId": 3,
+        "CategoryId": 2
+    },
+    {
+        "title": "The Martian",
+        "imageUrl": "https://example.com/martian.jpg",
+        "rating": 8,
+        "UserId": 4,
+        "CategoryId": 4
+    },
+    {
+        "title": "The Hangover",
+        "imageUrl": "https://example.com/hangover.jpg",
+        "rating": 6,
+        "UserId": 1,
+        "CategoryId": 3
+    },
+    {
+        "title": "Parasite",
+        "imageUrl": "https://example.com/parasite.jpg",
+        "rating": 9,
+        "UserId": 5,
+        "CategoryId": 2
+    }
+]

@@ -1,0 +1,45 @@
+Table Users {
+  id serial [primary key]
+  userName varchar [not null]
+  email varchar [unique, not null]
+  password varchar [not null]
+  role varchar [not null]
+}
+
+Table Profiles {
+  id serial [primary key]
+  firstName varchar [not null]
+  lastName varchar [not null]
+  phoneNumber integer [not null]
+  UserId integer [not null, unique]
+}
+
+Table Movies {
+  id serial [primary key]
+  title varchar [not null]
+  imageUrl varchar
+  rating integer
+  UserId integer [not null]
+  CategoryId integer
+}
+
+Table Categories {
+  id serial [primary key]
+  genre varchar
+}
+
+Table Favorites {
+  id serial [primary key]
+  UserId integer [not null]
+  MovieId integer [not null]
+}
+
+Ref: Profiles.UserId - Users.id
+Ref: Movies.UserId > Users.id
+Ref: Movies.CategoryId > Categories.id
+Ref: Favorites.UserId > Users.id
+Ref: Favorites.MovieId > Movies.id
+
+
+
+https://drive.google.com/drive/folders/170AIl3FL1hnPwLrJjdJmpYyUcd7-wPEN?usp=sharing

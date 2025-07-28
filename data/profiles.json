@@ -1,0 +1,32 @@
+[
+    {
+        "firstName": "Alpha",
+        "lastName": "Umar",
+        "phoneNumber": 812345678,
+        "UserId": 1
+    },
+    {
+        "firstName": "Bravo",
+        "lastName": "Siregar",
+        "phoneNumber": 813456789,
+        "UserId": 2
+    },
+    {
+        "firstName": "Charlie",
+        "lastName": "Moko",
+        "phoneNumber": 814567890,
+        "UserId": 3
+    },
+    {
+        "firstName": "Delta",
+        "lastName": "Manullang",
+        "phoneNumber": 815678901,
+        "UserId": 4
+    },
+    {
+        "firstName": "Echo",
+        "lastName": "Rumagit",
+        "phoneNumber": 816789012,
+        "UserId": 5
+    }
+]
