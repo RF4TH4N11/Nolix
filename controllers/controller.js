@@ -3,7 +3,7 @@ const { Op } = require("sequelize")
 class Controller {
     static async showLanding(req, res) {
         try {
-            res.render('landing', { imageUrls });
+            res.render('landing');
         } catch (err) {
             res.send(err);
         }
