@@ -8,14 +8,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="h-screen bg-cover bg-center text-white relative"
+<body class="min-h-screen flex flex-col bg-cover bg-center"
     style="background-image: url('https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=1600');">
 
-    <!-- Overlay -->
-    <div class="absolute inset-0 bg-black/70 z-0"></div>
-
-    <!-- Navbar -->
-    <header class="absolute top-0 left-0 right-0 z-10 bg-gray-900/80 p-4">
+    <header class="bg-gray-900 bg-opacity-90 p-4 shadow-md fixed top-0 left-0 right-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-2xl font-bold text-red-500"><a href="/">NOLIX21</a></h1>
             <nav>
@@ -25,29 +21,31 @@
         </div>
     </header>
 
-    <!-- Login Form -->
-    <main class="relative z-10 flex items-center justify-center h-full">
-        <div class="bg-black/80 p-8 rounded-md max-w-md w-full space-y-4">
-            <h2 class="text-2xl font-bold text-center">Login</h2>
+    <div class="h-16"></div>
+
+    <div class="bg-black/70 fixed inset-0 z-0"></div>
+
+    <main class="flex-grow relative z-10 flex items-center justify-center">
+        <div class="bg-black/80 p-8 rounded-md max-w-md w-full space-y-4 mx-4">
+            <h2 class="text-2xl font-bold text-center text-white">Login</h2>
 
             <form action="/login" method="POST" class="space-y-4">
-                <input type="email" name="email" placeholder="Email" class="w-full p-2 bg-gray-800 rounded outline-none"
-                    required />
+                <input type="email" name="email" placeholder="Email"
+                    class="w-full p-2 bg-gray-800 text-white rounded outline-none" required />
                 <input type="password" name="password" placeholder="Password"
-                    class="w-full p-2 bg-gray-800 rounded outline-none" required />
+                    class="w-full p-2 bg-gray-800 text-white rounded outline-none" required />
                 <button type="submit"
                     class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-semibold">Login</button>
             </form>
 
-            <p class="text-sm text-center">
+            <p class="text-sm text-center text-white">
                 Don’t have an account?
                 <a href="/register" class="text-blue-400 hover:underline">Register</a>
             </p>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="absolute bottom-0 left-0 right-0 z-10 bg-gray-900/80 text-white text-center py-4">
+    <footer class="bg-gray-900 bg-opacity-90 text-white text-center py-4 z-10 relative">
         <p class="text-sm">&copy; 2025 Nolix. All rights reserved.</p>
     </footer>
 
