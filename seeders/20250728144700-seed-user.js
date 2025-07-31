@@ -35,7 +35,8 @@ module.exports = {
      */
     await queryInterface.bulkDelete('Users', null, {
       truncate: true,
-      restartIdentity: true
+      restartIdentity: true,
+      cascade: true
     });
   }
 };

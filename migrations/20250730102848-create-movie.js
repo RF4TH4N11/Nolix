@@ -18,10 +18,13 @@ module.exports = {
       released: {
         type: Sequelize.DATE
       },
+      runtime: {
+        type: Sequelize.STRING
+      },
       director: {
         type: Sequelize.STRING
       },
-      actors: {
+      actor: {
         type: Sequelize.STRING
       },
       plot: {

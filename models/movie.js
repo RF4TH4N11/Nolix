@@ -12,19 +12,42 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Movie.belongsTo(models.User)
-      Movie.belongsTo(models.Category)
+      Movie.belongsTo(models.User, { foreignKey: 'UserId' });
+      Movie.belongsTo(models.Category, { foreignKey: 'CategoryId' });
+      Movie.belongsToMany(models.User, {
+        through: models.Favorite,
+        foreignKey: 'MovieId',
+        otherKey: 'UserId'
+      });
+
     }
+    static async getAverageRating() {
+      const result = await this.findAll({
+        attributes: [[fn('AVG', col('rating')), 'averageRating']],
+        raw: true,
+      });
+      return parseFloat(result[0].averageRating);
+    }
+    get formatedRelease(){
+    return changeFormatDate(this.released)
   }
-  Movie.init({
+  instanceFormatedRelease(){
+    return changeFormatDate(this.released)
+  }
+}
+ Movie.init({
     title: DataTypes.STRING,
-    year: DataTypes.INTEGER,
-    released: DataTypes.DATE,
+    year: DataTypes.STRING,
+    released: DataTypes.STRING,
+    runtime: DataTypes.STRING,
     director: DataTypes.STRING,
-    actors: DataTypes.STRING,
+    actor: DataTypes.STRING,
     plot: DataTypes.STRING,
     imageUrl: DataTypes.STRING,
-    rating: DataTypes.INTEGER
+    rating: DataTypes.INTEGER,
+    UserId: DataTypes.INTEGER,
+    CategoryId: DataTypes.INTEGER,
+    videoId: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Movie',
