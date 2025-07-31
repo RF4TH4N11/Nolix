@@ -13,15 +13,18 @@ module.exports = {
         type: Sequelize.STRING
       },
       year: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       released: {
-        type: Sequelize.DATE
+        type: Sequelize.STRING
+      },
+      runtime: {
+        type: Sequelize.STRING
       },
       director: {
         type: Sequelize.STRING
       },
-      actors: {
+      actor: {
         type: Sequelize.STRING
       },
       plot: {
@@ -32,6 +35,24 @@ module.exports = {
       },
       rating: {
         type: Sequelize.INTEGER
+      },
+      UserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+      CategoryId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Categories',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
       },
       createdAt: {
         allowNull: false,

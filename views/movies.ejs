@@ -28,15 +28,24 @@
                                 <p class="text-xs text-gray-400 mb-2">
                                     <%= movie.year %>
                                 </p>
-                                <form action="/movies/<%= movie.id %>/favorite" method="POST">
-                                    <button
-                                        class="text-xs px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded shadow">
-                                        Favorite
-                                    </button>
-                                </form>
-                                <button class="text-xs px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded shadow">
-                                    <a href="/movies/<%= movie.id %>">Watch</a>
-                                </button>
+                                <div class="flex gap-2 mt-2">
+                                    <form action="/movies/<%= movie.id %>/favorite" method="POST" class="w-full">
+                                        <button
+                                            class="text-xs px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded shadow w-full">
+                                            Favorite
+                                        </button>
+                                    </form>
+                                    <a href="/movies/<%= movie.id %>"
+                                        class="text-xs px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded shadow w-full text-center">
+                                        Watch
+                                    </a>
+                                </div>
+                                <% if (user.role==='admin' ) { %>
+                                    <a href="/admin/edit-movie/<%= movie.id %>"
+                                        class="text-xs px-2 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded shadow block mt-2 text-center">
+                                        Edit
+                                    </a>
+                                    <% } %>
                             </div>
                         </div>
                         <% }) %>
