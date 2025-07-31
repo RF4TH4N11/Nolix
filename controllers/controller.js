@@ -126,5 +126,6 @@ class Controller {
             res.send(err)
         }
     }
+    
 }
 module.exports = Controller;
