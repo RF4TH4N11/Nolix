@@ -11,52 +11,59 @@
 <body class="min-h-screen flex flex-col bg-cover bg-center"
     style="background-image: url('https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=1600');">
 
-    <header class="bg-gray-900 bg-opacity-90 p-4 shadow-md fixed top-0 left-0 right-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-red-500"><a href="/">NOLIX21</a></h1>
-            <nav>
-                <a href="/register" class="text-white hover:text-red-400 mr-4">Register</a>
-                <a href="/login" class="text-white hover:text-red-400">Login</a>
-            </nav>
-        </div>
-    </header>
+    <% if (typeof error !=='undefined' ) { %>
+        <p class="text-red-500 text-sm text-center">
+            <%= error %>
+        </p>
+        <% } %>
 
-    <!-- Spacer -->
-    <div class="h-16"></div>
+            <header class="bg-gray-900 bg-opacity-90 p-4 shadow-md fixed top-0 left-0 right-0 z-50">
+                <div class="container mx-auto flex justify-between items-center">
+                    <h1 class="text-2xl font-bold text-red-500"><a href="/">NOLIX21</a></h1>
+                    <nav>
+                        <a href="/register" class="text-white hover:text-red-400 mr-4">Register</a>
+                        <a href="/login" class="text-white hover:text-red-400">Login</a>
+                    </nav>
+                </div>
+            </header>
 
-    <!-- Overlay -->
-    <div class="bg-black/70 fixed inset-0 z-0"></div>
+            <!-- Spacer -->
+            <div class="h-16"></div>
 
-    <main class="flex-grow relative z-10 flex justify-center items-center">
-        <form action="/register" method="POST"
-            class="bg-black/80 text-white p-8 rounded-md max-w-md w-full space-y-4 mx-4">
-            <h2 class="text-2xl font-bold text-center">Sign Up</h2>
+            <!-- Overlay -->
+            <div class="bg-black/70 fixed inset-0 z-0"></div>
 
-            <input type="text" placeholder="Username" name="userName"
-                class="w-full p-2 bg-gray-800 rounded outline-none"/>
-            <input type="email" placeholder="Email" name="email" class="w-full p-2 bg-gray-800 rounded outline-none"
-                required />
-            <input type="password" placeholder="Password" name="password"
-                class="w-full p-2 bg-gray-800 rounded outline-none"/>
+            <main class="flex-grow relative z-10 flex justify-center items-center">
+                <form action="/register" method="POST"
+                    class="bg-black/80 text-white p-8 rounded-md max-w-md w-full space-y-4 mx-4">
+                    <h2 class="text-2xl font-bold text-center">Sign Up</h2>
 
-            <select name="role" class="w-full p-2 bg-gray-800 rounded">
-                <option value="" selected disabled>Select Role</option>
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-            </select>
+                    <input type="text" placeholder="Username" name="userName"
+                        class="w-full p-2 bg-gray-800 rounded outline-none" />
+                    <input type="email" placeholder="Email" name="email"
+                        class="w-full p-2 bg-gray-800 rounded outline-none" required />
+                    <input type="password" placeholder="Password" name="password"
+                        class="w-full p-2 bg-gray-800 rounded outline-none" />
 
-            <button type="submit" class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-semibold">Register</button>
+                    <select name="role" class="w-full p-2 bg-gray-800 rounded">
+                        <option value="" selected disabled>Select Role</option>
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
 
-            <p class="text-sm text-center">
-                Already have an account?
-                <a href="/login" class="text-blue-400 hover:underline">Login</a>
-            </p>
-        </form>
-    </main>
+                    <button type="submit"
+                        class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-semibold">Register</button>
 
-    <footer class="bg-gray-900 bg-opacity-90 text-white text-center py-4 z-10 relative">
-        <p class="text-sm">&copy; 2025 Nolix. All rights reserved.</p>
-    </footer>
+                    <p class="text-sm text-center">
+                        Already have an account?
+                        <a href="/login" class="text-blue-400 hover:underline">Login</a>
+                    </p>
+                </form>
+            </main>
+
+            <footer class="bg-gray-900 bg-opacity-90 text-white text-center py-4 z-10 relative">
+                <p class="text-sm">&copy; 2025 Nolix. All rights reserved.</p>
+            </footer>
 
 </body>
 
