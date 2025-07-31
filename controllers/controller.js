@@ -22,13 +22,20 @@ class Controller {
             });
 
         } catch (err) {
-
+            res.send(err)
         }
     }
 
     static async postRegister(req, res) {
         try {
             const { userName, email, password, role } = req.body
+
+            const existingUser = await User.findOne({ where: { email } });
+
+            if (existingUser) {
+                return res.render('register', { error: 'Email is already registered' });
+            }
+
             await User.create({ userName, email, password, role })
             res.redirect('/login')
         } catch (err) {
