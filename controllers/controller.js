@@ -1,6 +1,14 @@
 const { Category, Favorite, Movie, Profile, User } = require('../models/index')
 const { Op } = require("sequelize")
 class Controller {
+    static async showLanding(req, res) {
+        try {
+            res.render('landing', { imageUrls });
+        } catch (err) {
+            res.send(err);
+        }
+    }
+
     static async readUserProfile(req, res) {
         try {
             let profiles = await Profile.findAll({
