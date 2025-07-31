@@ -20,6 +20,7 @@ router.get('/movies/:id', auth, Controller.detailMovie)
 router.post('/movies/:id/favorite', auth, Controller.addFavorite);
 router.get('/admin/edit-movie/:id', auth, adminOnly, Controller.showEditMovie)
 router.post('/admin/edit-movie/:id', auth, adminOnly, Controller.editMovie)
+router.post('/admin/delete-movie/:id', auth, adminOnly, Controller.deletedMovieByAdmin)
 router.post('/favorites/remove/:id', auth, Controller.removeFavorite)
 
 
