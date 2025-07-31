@@ -1,5 +1,9 @@
-const { Category, Favorite, Movie, Profile, User } = require('../models/index')
-const { Op } = require("sequelize")
+const { User, Movie, Favorite, Category, Profile } = require('../models/index')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
+const session = require('express-session')
+const SECRET = 'RAHASIA'
+
 class Controller {
     static async showLanding(req, res) {
         try {
@@ -9,131 +13,202 @@ class Controller {
         }
     }
 
-    static async readUserProfile(req, res) {
-        try {
-            let profiles = await Profile.findAll({
-                include: { User, Favorite, Category, Movie }
-            })
-            res.render('profiles', { profiles })
-        } catch (err) {
-            console.log(err);
-            res.send(err)
-        }
-    }
-    static async readMovies(req, res) {
-        try {
-            let movies = await Movie.findAll()
-            res.render('movies', { movies })
-        } catch (err) {
-            console.log(err);
-            res.send(err)
-        }
-    }
-    static async readFavorites(req, res) {
-        try {
-            let favorites = await Favorite.findAll()
-            res.render('favorites', { favorites })
-        } catch (err) {
-            console.log(err);
-            res.send(err)
-        }
-    }
-    static async readCategories(req, res) {
-        try {
-            let categories = await Category.findAll()
-            res.render('categories', { categories })
-        } catch (err) {
-            console.log(err);
-            res.send(err)
-        }
-    }
-    static async deleteMovieById(req, res) {
-        try {
-            const { id } = req.params;
 
-            let movies = await Movie.findByPk(+id);
+    static async showRegister(req, res) {
+        try {
+            res.render('register', {
+                title: 'Register - Nolix21',
+                bodyClass: 'bg-cover bg-center text-white'
+            });
 
-            if (!movies) throw "Movie not found!"
-            await Movie.destroy({
+        } catch (err) {
+
+        }
+    }
+
+    static async postRegister(req, res) {
+        try {
+            const { userName, email, password, role } = req.body
+            await User.create({ userName, email, password, role })
+            res.redirect('/login')
+        } catch (err) {
+            console.log(err)
+            res.send(err)
+        }
+    }
+
+    static async showLogin(req, res) {
+        try {
+            res.render('login')
+        } catch (error) {
+            res.send(err)
+        }
+    }
+
+    static async postLogin(req, res) {
+        try {
+            const { email, password } = req.body;
+            const user = await User.findOne({
                 where: {
-                    id: +id
+                    email
                 }
+            });
+
+            if (!user) return res.send('Email not found');
+
+            const isValid = await bcrypt.compare(password, user.password);
+            if (!isValid) return res.send('Invalid password');
+
+            const token = jwt.sign({ id: user.id, role: user.role }, SECRET);
+            req.session.userToken = token;
+            req.session.userId = user.id;
+
+            console.log('Session after saving token:', req.session);
+            res.redirect('/movies');
+        } catch (err) {
+            console.error('Login error:', err);
+            // res.status(500).send('Internal Server Error');
+        }
+    }
+
+
+    static async logout(req, res) {
+        try {
+            req.session.destroy((err) => {
+                if (err) {
+                    return res.send(err);
+                }
+                res.redirect('/');
+            });
+        } catch (err) {
+            res.send(err);
+        }
+    }
+
+    static async listMovies(req, res) {
+        try {
+            const movies = await Movie.findAll({
+                include: [
+                    Category, User
+                ]
             })
-            res.redirect('/movie')
+
+            res.render('movies', {
+                user: req.user,
+                movies
+            })
         } catch (err) {
-            console.log(err);
             res.send(err)
         }
     }
-    static async getAddMovies(req, res) {
+
+    static async movieDetail(req, res) {
         try {
-            let movies = await Movie.findAll()
-            res.render('movies', { movies })
+            const id = req.params.id;
+            const movie = await Movie.findByPk(id, {
+                include: [
+                    Category
+                ]
+            });
+            res.render('movieDetail', { movie });
         } catch (err) {
-            console.log(err);
             res.send(err)
         }
     }
-    static async saveAddMovies(req, res) {
+
+
+    static async showFavoriteMovies(req, res) {
         try {
-            const { title, year, released, director, actors, plot, imageUrl, rating, UserId, CategoryId } = req.body;
-            await Movie.create({ title, year, released, director, actors, plot, imageUrl, rating, UserId, CategoryId })
-            res.redirect('/movie')
+            const userId = req.session.userId;
+            const user = await User.findByPk(userId, {
+                include: {
+                    model: Movie,
+                    through: Favorite
+                }
+            });
+
+            res.render('favorites', {
+                user,
+                movies: user.Movies
+            });
         } catch (err) {
-            if (err.name === "SequelizeValidationError") {
-                const errors = err.errors.map(el => el.message);
-
-                res.send(errors);
-            } else {
-                console.log(err);
-
-                res.send(err);
-            }
+            res.send(err);
         }
     }
-    static async getEditMovies(req, res) {
+
+    static async addFavorite(req, res) {
         try {
-            const { id } = req.params;
+            const userId = req.session.userId;
+            const movieId = req.params.id;
 
-            let movies = await Movie.findByPk(+id);
+            await Favorite.create({ UserId: userId, MovieId: movieId });
 
-            if (!movies) throw "Movie not found!"
-            res.render('editMovie', { movies })
+            res.redirect('/favorites');
         } catch (err) {
-            console.log(err);
-            res.send(err)
+            res.send(err);
         }
     }
-    static async saveEditMovies(req, res) {
+
+    static async showProfile(req, res) {
         try {
-            const { id } = req.params;
-            const { title, year, released, director, actors, plot, imageUrl, rating, UserId, CategoryId } = req.body;
-            await Movie.update({ title, year, released, director, actors, plot, imageUrl, rating, UserId, CategoryId }, {
+            const userId = req.session.userId;
+            const user = await User.findByPk(userId, {
+                include: Profile
+            });
+
+            res.render('profile', {
+                user,
+                profile: user.Profile
+            });
+        } catch (err) {
+            res.send(err);
+        }
+    }
+
+
+    static async saveProfile(req, res) {
+        try {
+            const userId = req.session.userId;
+            const { firstName, lastName, phoneNumber } = req.body;
+
+            const [profile, created] = await Profile.findOrCreate({
                 where: {
-                    id: +id
+                    UserId: userId
+                },
+                defaults: {
+                    firstName, lastName, phoneNumber
                 }
-            })
-            res.redirect('/moviePAge')
-        } catch (err) {
-            if (err.name === "SequelizeValidationError") {
-                const errors = err.errors.map(el => el.message);
+            });
 
-                res.send(errors);
-            } else {
-                console.log(err);
-
-                res.send(err);
+            if (!created) {
+                await profile.update({ firstName, lastName, phoneNumber });
             }
+
+            res.redirect('/movies');
+        } catch (err) {
+            res.send(err);
         }
     }
-    static async test(req, res) {
+
+
+    static async showAddMovie(req, res) {
         try {
-            res.render('homeTesting')
+            res.render('add-movie')
         } catch (err) {
-            console.log(err);
+            res.send(err)
+        }
+    }
+
+    static async addMovie(req, res) {
+        try {
+            const { title, director, videoId } = req.body
+            await Movie.create({ title, director, videoId })
+            res.redirect('/movies')
+        } catch (err) {
             res.send(err)
         }
     }
     
 }
-module.exports = Controller;
+
+module.exports = Controller
