@@ -18,6 +18,16 @@ module.exports = {
       phoneNumber: {
         type: Sequelize.INTEGER
       },
+      UserId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Users',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

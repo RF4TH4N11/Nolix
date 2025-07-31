@@ -52,7 +52,7 @@ class Controller {
         }
     }
 
-    static async postLogin(req, res) {
+    static async saveLogin(req, res) {
         try {
             const { email, password } = req.body;
             const user = await User.findOne({
@@ -109,7 +109,7 @@ class Controller {
         }
     }
 
-    static async movieDetail(req, res) {
+    static async detailMovie(req, res) {
         try {
             const id = req.params.id;
             const movie = await Movie.findByPk(id, {
@@ -123,6 +123,45 @@ class Controller {
         }
     }
 
+    static async showProfile(req, res) {
+        try {
+            const userId = req.session.userId;
+            const user = await User.findByPk(userId, {
+                include: Profile
+            });
+
+            res.render('profile', {
+                user,
+                profile: user.Profile
+            });
+        } catch (err) {
+            res.send(err);
+        }
+    }
+
+    static async saveProfile(req, res) {
+        try {
+            const userId = req.session.userId;
+            const { firstName, lastName, phoneNumber } = req.body;
+
+            const [profile, created] = await Profile.findOrCreate({
+                where: {
+                    UserId: userId
+                },
+                defaults: {
+                    firstName, lastName, phoneNumber
+                }
+            });
+
+            if (!created) {
+                await profile.update({ firstName, lastName, phoneNumber });
+            }
+
+            res.redirect('/movies');
+        } catch (err) {
+            res.send(err);
+        }
+    }
 
     static async showFavoriteMovies(req, res) {
         try {
@@ -156,48 +195,6 @@ class Controller {
         }
     }
 
-    static async showProfile(req, res) {
-        try {
-            const userId = req.session.userId;
-            const user = await User.findByPk(userId, {
-                include: Profile
-            });
-
-            res.render('profile', {
-                user,
-                profile: user.Profile
-            });
-        } catch (err) {
-            res.send(err);
-        }
-    }
-
-
-    static async saveProfile(req, res) {
-        try {
-            const userId = req.session.userId;
-            const { firstName, lastName, phoneNumber } = req.body;
-
-            const [profile, created] = await Profile.findOrCreate({
-                where: {
-                    UserId: userId
-                },
-                defaults: {
-                    firstName, lastName, phoneNumber
-                }
-            });
-
-            if (!created) {
-                await profile.update({ firstName, lastName, phoneNumber });
-            }
-
-            res.redirect('/movies');
-        } catch (err) {
-            res.send(err);
-        }
-    }
-
-
     static async showAddMovie(req, res) {
         try {
             res.render('add-movie')
@@ -208,13 +205,66 @@ class Controller {
 
     static async addMovie(req, res) {
         try {
-            const { title, director, videoId } = req.body
-            await Movie.create({ title, director, videoId })
+            const { title, year, released, runtime, director,
+                actor, plot, imageUrl, rating, videoId,
+                createdAt, genre } = req.body
+            await Movie.create({
+                title, year, released, runtime, director,
+                actor, plot, imageUrl, rating, videoId,
+                createdAt, genre
+            })
             res.redirect('/movies')
         } catch (err) {
             res.send(err)
         }
     }
+
+
+    static async showEditMovie(req, res) {
+        try {
+            const { id } = req.params;
+            const movie = await Movie.findByPk(id);
+
+            if (!movie) {
+                return res.status(404).send('Movie not found');
+            }
+
+            res.render('edit-movie', { movie });  // Kirim data movie ke form edit
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+
+    static async editMovie(req, res) {
+        try {
+            const { id } = req.params;
+            const {
+                title, year, released, runtime, director,
+                actor, plot, imageUrl, rating, videoId,
+                createdAt, genre
+            } = req.body;
+
+            const [updated] = await Movie.update(
+                {
+                    title, year, released, runtime, director,
+                    actor, plot, imageUrl, rating, videoId,
+                    createdAt, genre
+                },
+                {
+                    where: { id }
+                }
+            );
+
+            if (!updated) {
+                return res.status(404).send("Movie not found or not updated.");
+            }
+
+            res.redirect('/dashboard'); // atau ke halaman detail
+        } catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+
 }
 
 module.exports = Controller

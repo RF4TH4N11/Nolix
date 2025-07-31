@@ -1,31 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('partials/headerDashboard') %>
 
-    <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Movie - Nolix21</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-gray-800 p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-red-500"><a href="/">NOLIX21</a></h1>
+            <nav>
+                <a href="/dashboard" class="text-white hover:text-red-400 mr-4">Dashboard</a>
+                <a href="/logout" class="text-white hover:text-red-400">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Form -->
+    <main class="flex-grow flex justify-center items-center p-4">
         <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
             <h2 class="text-2xl font-bold mb-6 text-center">Add New Movie</h2>
             <form action="/admin/add-movie" method="POST" class="space-y-4">
                 <input type="text" name="title" placeholder="Movie Title"
                     class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="year" placeholder="Year"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="released" placeholder="Release Date"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="runtime" placeholder="Runtime"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
                 <input type="text" name="director" placeholder="Director"
                     class="w-full p-2 rounded bg-gray-700 border border-gray-600">
-                <input type="text" name="genre" placeholder="Genre"
+                <input type="text" name="actor" placeholder="Actor"
                     class="w-full p-2 rounded bg-gray-700 border border-gray-600">
                 <input type="text" name="plot" placeholder="Synopsis"
                     class="w-full p-2 rounded bg-gray-700 border border-gray-600">
-                <input type="text" name="imageUrl" placeholder="Image Url"
+                <input type="text" name="imageUrl" placeholder="Image URL"
                     class="w-full p-2 rounded bg-gray-700 border border-gray-600">
-                <input type="text" name="videoId" placeholder="Video Url"
+                <input type="number" name="rating" placeholder="Rating"
                     class="w-full p-2 rounded bg-gray-700 border border-gray-600">
-                <input type="text" name="released" placeholder="Released Date Movie"
+                <input type="text" name="videoId" placeholder="Video ID (Google Drive)"
                     class="w-full p-2 rounded bg-gray-700 border border-gray-600">
-                <input type="text" name="createdAt" placeholder="Adding Date Movie"
+                <input type="date" name="createdAt" placeholder="Created At"
                     class="w-full p-2 rounded bg-gray-700 border border-gray-600">
-                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 py-2 rounded">Add Movie</button>
+                <input type="text" name="genre" placeholder="Genre"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 py-2 rounded font-semibold">
+                    Add Movie
+                </button>
             </form>
         </div>
-    </body>
-    <%- include('partials/footer') %>
-</main>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p class="text-sm">&copy; 2025 Nolix21. All rights reserved.</p>
+    </footer>
+</body>
+
 </html>
