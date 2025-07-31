@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NOLIX21 - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="h-screen bg-cover bg-center text-white relative"
+    style="background-image: url('https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?w=1600');">
+
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black/70 z-0"></div>
+
+    <!-- Navbar -->
+    <header class="absolute top-0 left-0 right-0 z-10 bg-gray-900/80 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-red-500"><a href="/">NOLIX21</a></h1>
+            <nav>
+                <a href="/register" class="text-white hover:text-red-400 mr-4">Register</a>
+                <a href="/login" class="text-white hover:text-red-400">Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login Form -->
+    <main class="relative z-10 flex items-center justify-center h-full">
+        <div class="bg-black/80 p-8 rounded-md max-w-md w-full space-y-4">
+            <h2 class="text-2xl font-bold text-center">Login</h2>
+
+            <form action="/login" method="POST" class="space-y-4">
+                <input type="email" name="email" placeholder="Email" class="w-full p-2 bg-gray-800 rounded outline-none"
+                    required />
+                <input type="password" name="password" placeholder="Password"
+                    class="w-full p-2 bg-gray-800 rounded outline-none" required />
+                <button type="submit"
+                    class="w-full bg-red-600 hover:bg-red-700 p-2 rounded font-semibold">Login</button>
+            </form>
+
+            <p class="text-sm text-center">
+                Don’t have an account?
+                <a href="/register" class="text-blue-400 hover:underline">Register</a>
+            </p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="absolute bottom-0 left-0 right-0 z-10 bg-gray-900/80 text-white text-center py-4">
+        <p class="text-sm">&copy; 2025 Nolix. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

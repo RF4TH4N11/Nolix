@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/headerDashboard') %>
+
+    <body class="bg-gray-900 text-white min-h-screen flex flex-col">
+        <main class="flex-1">
+            <div class="container mx-auto px-4 py-10">
+                <div class="flex justify-between items-center mb-6">
+                    <div class="space-x-2 flex items-center">
+                        <% if (user.role==='admin' ) { %>
+                            <a href="/admin/add-movie" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded text-sm">+
+                                Add
+                                Movie</a>
+                            <% } %>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                    <% movies.forEach(movie=> { %>
+                        <div
+                            class="bg-zinc-900 rounded-lg overflow-hidden shadow-md hover:scale-105 transition transform duration-300">
+                            <img src="<%= movie.imageUrl %>" alt="<%= movie.title %>"
+                                class="w-full h-64 object-cover" />
+                            <div class="px-3 py-2">
+                                <p class="text-sm font-semibold leading-tight truncate">
+                                    <%= movie.title %> (<%= movie.year %>)
+                                </p>
+                                <p class="text-xs text-gray-400 mb-2">
+                                    <%= movie.year %>
+                                </p>
+                                <form action="/movies/<%= movie.id %>/favorite" method="POST">
+                                    <button
+                                        class="text-xs px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded shadow">
+                                        Favorite
+                                    </button>
+                                </form>
+                                <button class="text-xs px-2 py-1 bg-red-500 hover:bg-red-600 text-white rounded shadow">
+                                    <a href="/movies/<%= movie.id %>">Watch</a>
+                                </button>
+                            </div>
+                        </div>
+                        <% }) %>
+                </div>
+            </div>
+        </main>
+
+        <%- include('partials/footer') %>
+    </body>
+
+</html>

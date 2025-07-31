@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/headerDashboard') %>
+
+<body class="min-h-screen flex flex-col bg-gradient-to-b from-black to-gray-900 text-white">
+
+    <main class="flex-1 container mx-auto px-6 py-10">
+        <h1 class="text-3xl font-bold mb-8 text-center text-white-500">My Favorite Movies</h1>
+
+        <% if (movies.length === 0) { %>
+            <div class="text-center text-gray-400 text-sm">
+                You don't have any favorite movies yet.
+            </div>
+        <% } else { %>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <% movies.forEach(movie => { %>
+                    <div class="bg-zinc-900 rounded-xl overflow-hidden shadow-lg hover:scale-105 transition transform duration-300">
+                        <img src="<%= movie.imageUrl %>" alt="<%= movie.title %>" class="w-full h-64 object-cover" />
+                        <div class="p-4 space-y-1">
+                            <h3 class="text-sm font-semibold truncate">
+                                <%= movie.title %> (<%= movie.year %>)
+                            </h3>
+                            <p class="text-xs text-gray-400"><%= movie.year %></p>
+                            <a href="/movies/<%= movie.id %>"
+                                class="inline-block text-xs px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded-full shadow mt-2">
+                                Watch Now
+                            </a>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        <% } %>
+    </main>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

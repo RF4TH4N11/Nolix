@@ -1,13 +1,22 @@
-const express = require('express');
-const Controller = require('../controllers/controller');
+const express = require('express')
 const router = express.Router()
+const Controller = require('../controllers/controller')
 const { auth, adminOnly } = require('../middlewares/auth')
 
-router.get('/', Controller.showLanding);
-router.get('/userProfile', Controller.readUserProfile);
-router.get('/movie', Controller.readMovies);
-router.get('/favorite', Controller.readFavorites);
-router.get('/category', Controller.readCategories);
-router.post('/adminPage', Controller.test);
+router.get('/', Controller.showLanding)
+router.get('/register', Controller.showRegister)
+router.post('/register', Controller.postRegister)
+router.get('/login', Controller.showLogin)
+router.post('/login', Controller.postLogin)
+router.post('/logout', Controller.logout)
+router.get('/movies', auth, Controller.listMovies)
+router.get('/profiles', auth, Controller.showProfile)
+router.post('/profiles', auth, Controller.saveProfile)
+router.get('/favorites', auth, Controller.showFavoriteMovies)
+router.post('/admin/add-movie', auth, adminOnly, Controller.addMovie)
+router.get('/admin/add-movie', auth, adminOnly, Controller.showAddMovie)
+
+router.get('/movies/:id', auth, Controller.movieDetail)
+router.post('/movies/:id/favorite', auth, Controller.addFavorite);
 
 module.exports = router;
