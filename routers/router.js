@@ -18,5 +18,6 @@ router.get('/admin/add-movie', auth, adminOnly, Controller.showAddMovie)
 
 router.get('/movies/:id', auth, Controller.movieDetail)
 router.post('/movies/:id/favorite', auth, Controller.addFavorite);
+router.post('/favorites/remove/:id', auth, Controller.removeFavorite)
 
 module.exports = router;

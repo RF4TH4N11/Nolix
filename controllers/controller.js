@@ -155,7 +155,23 @@ class Controller {
             res.send(err);
         }
     }
+    static async removeFavorite(req, res) {
+        try {
+            const userId = req.session.userId;
+            const movieId = req.params.id;
 
+            await Favorite.destroy({
+                where: {
+                    UserId: userId,
+                    MovieId: movieId
+                }
+            });
+
+            res.redirect('/favorites');
+        } catch (err) {
+            res.send(err);
+        }
+    }
     static async showProfile(req, res) {
         try {
             const userId = req.session.userId;
@@ -215,7 +231,7 @@ class Controller {
             res.send(err)
         }
     }
-    
+
 }
 
 module.exports = Controller

@@ -6,14 +6,14 @@
     <div class="aspect-w-16 aspect-h-9 mb-6">
         <iframe 
             class="w-full h-[480px] rounded-xl" 
-            src="https://drive.google.com/file/d/<%= movies.videoId %>/preview" 
+            src="https://drive.google.com/file/d/<%= movie.videoId %>/preview" 
             allow="autoplay" 
             allowfullscreen>
         </iframe>
     </div>
-    <h1 class="text-3xl font-bold mb-4">Title : <%= movies.title %> <%= movies.year %></h1>
-    <p class="text-lg mb-2">Directed by: <%= movies.director %></p>
-    <p class="text-md text-gray-400 mb-4"><%= movies.plot %></p>
+    <h1 class="text-3xl font-bold mb-4">Title : <%= movie.title %> <%= movie.year %></h1>
+    <p class="text-lg mb-2">Directed by: <%= movie.director %></p>
+    <p class="text-md text-gray-400 mb-4"><%= movie.plot %></p>
 
     <a href="/movies" class="text-blue-400 underline hover:text-blue-200">← Back to movies</a>
 </body>
