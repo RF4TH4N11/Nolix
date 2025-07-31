@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="https://www.svgrepo.com/show/343982/movie.svg">
+</head>
+
+<body class="bg-gray-900 text-white font-sans">
+    <header class="bg-gray-900/80 p-4 fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-red-500"><a href="/">NOLIX21</a></h1>
+
+            <% if (user) { %>
+                <div class="relative group">
+                    <button class="flex items-center space-x-2 hover:text-red-400 focus:outline-none">
+                        <span>
+                            <%= user.userName %>
+                        </span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown -->
+                    <div
+                        class="absolute right-0 mt-2 w-40 bg-gray-800 rounded-md shadow-lg py-2 hidden group-hover:block z-50">
+                        <a href="/profiles" class="block px-4 py-2 text-sm hover:bg-gray-700">Profile</a>
+                        <a href="/favorites" class="block px-4 py-2 text-sm hover:bg-gray-700">Favorite</a>
+                        <form action="/logout" method="POST">
+                            <button type="submit" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-700">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <% } else { %>
+                    <nav>
+                        <a href="/register" class="text-white hover:text-red-400 mr-4">Register</a>
+                        <a href="/login" class="text-white hover:text-red-400">Login</a>
+                    </nav>
+                    <% } %>
+        </div>
+    </header>
+    <main class="p-6">

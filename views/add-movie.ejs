@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/headerDashboard') %>
+
+    <body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-6 text-center">Add New Movie</h2>
+            <form action="/admin/add-movie" method="POST" class="space-y-4">
+                <input type="text" name="title" placeholder="Movie Title"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="director" placeholder="Director"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="genre" placeholder="Genre"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="plot" placeholder="Synopsis"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="imageUrl" placeholder="Image Url"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="videoId" placeholder="Video Url"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="released" placeholder="Released Date Movie"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <input type="text" name="createdAt" placeholder="Adding Date Movie"
+                    class="w-full p-2 rounded bg-gray-700 border border-gray-600">
+                <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 py-2 rounded">Add Movie</button>
+            </form>
+        </div>
+    </body>
+    <%- include('partials/footer') %>
+</main>
+</html>
