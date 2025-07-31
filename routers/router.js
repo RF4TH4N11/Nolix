@@ -1,8 +1,9 @@
 const express = require('express');
 const Controller = require('../controllers/controller');
 const router = express.Router()
+const { auth, adminOnly } = require('../middlewares/auth')
 
-router.get('/', Controller.test);
+router.get('/', Controller.showLanding);
 router.get('/userProfile', Controller.readUserProfile);
 router.get('/movie', Controller.readMovies);
 router.get('/favorite', Controller.readFavorites);
