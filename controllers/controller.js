@@ -1,7 +1,8 @@
 const { User, Movie, Favorite, Category, Profile } = require('../models/index')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const session = require('express-session')
+const session = require('express-session');
+const { Op } = require("sequelize");
 const SECRET = 'RAHASIA'
 
 class Controller {
@@ -94,30 +95,45 @@ class Controller {
 
     static async listMovies(req, res) {
         try {
-            const movies = await Movie.findAll({
-                include: [
-                    Category, User
-                ]
-            })
+            const { search } = req.query;
+
+            const options = {
+                include: [Category, User],
+                where: {}
+            };
+
+            if (search) {
+                options.where.title = {
+                    [Op.iLike]: `%${search}%`
+                };
+            }
+
+            const movies = await Movie.findAll(options);
 
             res.render('movies', {
-                user: req.user,
-                movies
-            })
+                user: req.session.user,
+                movies,
+                search,
+                user: req.user
+            });
+
         } catch (err) {
-            res.send(err)
+            res.send(err);
         }
     }
 
     static async detailMovie(req, res) {
         try {
             const id = req.params.id;
-            const movie = await Movie.findByPk(id, {
+            const movies = await Movie.findByPk(id, {
                 include: [
                     Category
                 ]
             });
-            res.render('movieDetail', { movie });
+            res.render('movieDetail', {
+                movies,
+                user: req.user
+            });
         } catch (err) {
             res.send(err)
         }
@@ -188,6 +204,24 @@ class Controller {
             const movieId = req.params.id;
 
             await Favorite.create({ UserId: userId, MovieId: movieId });
+
+            res.redirect('/favorites');
+        } catch (err) {
+            res.send(err);
+        }
+    }
+
+    static async removeFavorite(req, res) {
+        try {
+            const userId = req.session.userId;
+            const movieId = req.params.id;
+
+            await Favorite.destroy({
+                where: {
+                    UserId: userId,
+                    MovieId: movieId
+                }
+            });
 
             res.redirect('/favorites');
         } catch (err) {
