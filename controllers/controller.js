@@ -13,8 +13,6 @@ class Controller {
             res.send(err);
         }
     }
-
-
     static async showRegister(req, res) {
         try {
             res.render('register', {
@@ -26,7 +24,6 @@ class Controller {
             res.send(err)
         }
     }
-
     static async postRegister(req, res) {
         try {
             const { userName, email, password, role } = req.body
@@ -44,7 +41,6 @@ class Controller {
             res.send(err)
         }
     }
-
     static async showLogin(req, res) {
         try {
             res.render('login')
@@ -52,7 +48,6 @@ class Controller {
             res.send(err)
         }
     }
-
     static async saveLogin(req, res) {
         try {
             const { email, password } = req.body;
@@ -61,16 +56,13 @@ class Controller {
                     email
                 }
             });
-
             if (!user) return res.send('Email not found');
 
             const isValid = await bcrypt.compare(password, user.password);
             if (!isValid) return res.send('Invalid password');
-
             const token = jwt.sign({ id: user.id, role: user.role }, SECRET);
             req.session.userToken = token;
             req.session.userId = user.id;
-
             console.log('Session after saving token:', req.session);
             res.redirect('/movies');
         } catch (err) {
@@ -78,8 +70,6 @@ class Controller {
             // res.status(500).send('Internal Server Error');
         }
     }
-
-
     static async logout(req, res) {
         try {
             req.session.destroy((err) => {
@@ -92,7 +82,6 @@ class Controller {
             res.send(err);
         }
     }
-
     static async listMovies(req, res) {
         try {
             const { search } = req.query;
@@ -107,9 +96,7 @@ class Controller {
                     [Op.iLike]: `%${search}%`
                 };
             }
-
             const movies = await Movie.findAll(options);
-
             res.render('movies', {
                 user: req.session.user,
                 movies,
@@ -121,7 +108,6 @@ class Controller {
             res.send(err);
         }
     }
-
     static async detailMovie(req, res) {
         try {
             const id = req.params.id;
@@ -138,14 +124,12 @@ class Controller {
             res.send(err)
         }
     }
-
     static async showProfile(req, res) {
         try {
             const userId = req.session.userId;
             const user = await User.findByPk(userId, {
                 include: Profile
             });
-
             res.render('profile', {
                 user,
                 profile: user.Profile
@@ -154,12 +138,10 @@ class Controller {
             res.send(err);
         }
     }
-
     static async saveProfile(req, res) {
         try {
             const userId = req.session.userId;
             const { firstName, lastName, phoneNumber } = req.body;
-
             const [profile, created] = await Profile.findOrCreate({
                 where: {
                     UserId: userId
@@ -178,7 +160,6 @@ class Controller {
             res.send(err);
         }
     }
-
     static async showFavoriteMovies(req, res) {
         try {
             const userId = req.session.userId;
@@ -197,7 +178,6 @@ class Controller {
             res.send(err);
         }
     }
-
     static async addFavorite(req, res) {
         try {
             const userId = req.session.userId;
@@ -210,7 +190,6 @@ class Controller {
             res.send(err);
         }
     }
-
     static async removeFavorite(req, res) {
         try {
             const userId = req.session.userId;
@@ -222,13 +201,11 @@ class Controller {
                     MovieId: movieId
                 }
             });
-
             res.redirect('/favorites');
         } catch (err) {
             res.send(err);
         }
     }
-
     static async showAddMovie(req, res) {
         try {
             res.render('add-movie')
@@ -236,7 +213,6 @@ class Controller {
             res.send(err)
         }
     }
-
     static async addMovie(req, res) {
         try {
             const { title, year, released, runtime, director,
@@ -252,8 +228,6 @@ class Controller {
             res.send(err)
         }
     }
-
-
     static async showEditMovie(req, res) {
         try {
             const { id } = req.params;
@@ -263,42 +237,43 @@ class Controller {
                 return res.status(404).send('Movie not found');
             }
 
-            res.render('edit-movie', { movie });  // Kirim data movie ke form edit
+            res.render('edit-movie', { movie });
         } catch (error) {
             res.status(500).send(error.message);
         }
     }
-
     static async editMovie(req, res) {
         try {
             const { id } = req.params;
-            const {
-                title, year, released, runtime, director,
-                actor, plot, imageUrl, rating, videoId,
-                createdAt, genre
-            } = req.body;
-
-            const [updated] = await Movie.update(
-                {
-                    title, year, released, runtime, director,
-                    actor, plot, imageUrl, rating, videoId,
-                    createdAt, genre
-                },
-                {
-                    where: { id }
-                }
-            );
-
+            const { title, year, released, runtime, director, actor, plot, imageUrl, rating, videoId, createdAt, genre } = req.body;
+            const [updated] = await Movie.update({ 
+                title, year, released, runtime, director, actor, plot, imageUrl, rating, videoId, createdAt, genre 
+            },{ 
+                where: { id } 
+            });
             if (!updated) {
                 return res.status(404).send("Movie not found or not updated.");
             }
-
-            res.redirect('/dashboard'); // atau ke halaman detail
+            res.redirect('/movies');
         } catch (error) {
             res.status(500).send(error.message);
         }
     }
+    static async deletedMovieByAdmin(req, res) {
+        try {
+            const movieId = req.params.id;
 
+            await Movie.destroy({
+                where: {
+                    id: movieId
+                }
+            });
+
+            res.redirect('/movies');
+        } catch (err) {
+            res.send(err);
+        }
+    }
 }
 
 module.exports = Controller
