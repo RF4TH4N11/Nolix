@@ -1,7 +1,0 @@
-npx sequelize model:generate --name User --attributes userName:string,password:string,role:string
-npx sequelize migration:generate --name add-email-to-user
-npx sequelize model:generate --name Profile --attributes firstName:string,lastName:string,phoneNumber:string,UserId:integer
-npx sequelize model:generate --name Genre --attributes genre:string
-npx sequelize model:generate --name Movie --attributes title:string,year:string,released:string,runtime:string,director:string,actor:string,plot:text,imageUrl:string,rating:integer,UserId:integer,CategoryId:integer,videoId:string
-npx sequelize model:generate --name Favorite --attributes UserId:integer,MovieId:integer
-

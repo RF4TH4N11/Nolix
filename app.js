@@ -3,7 +3,7 @@ const app = express()
 const port = 3000
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
-const router = require('./routers/router') // harus `./router`, bukan 'router'
+const router = require('./routers/router')
 
 app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: true }));
@@ -11,6 +11,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(session({
     secret: 'RAHASIA',
+    sumSite: true,
     resave: false,
     saveUninitialized: false
 }));
